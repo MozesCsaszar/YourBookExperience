@@ -82,7 +82,7 @@
 
                 <EditText
                     android:id="@+id/ebAuthor"
-                    android:layout_width="312dp"
+                    android:layout_width="290dp"
                     android:layout_height="69dp"
                     android:singleLine="true"
                     android:text="Stephen King"
