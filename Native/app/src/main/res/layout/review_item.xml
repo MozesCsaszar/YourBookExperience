@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/borders_list_item">
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
+        android:layout_marginEnd="5dp"
+        android:layout_marginBottom="3dp"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/border_bottom"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/bTitleAuthor"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Hello"
+                android:textAlignment="center"
+                android:textColor="@color/foreground1"
+                android:textSize="20sp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/rated"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:paddingTop="14dp"
+                    android:text="Rated"
+                    android:textAlignment="viewEnd"
+                    android:textColor="@color/text" />
+
+                <RatingBar
+                    android:id="@+id/rating"
+                    android:layout_width="210dp"
+                    android:layout_height="50dp"
+                    android:layout_margin="-50dp"
+                    android:layout_weight="1"
+                    android:clickable="false"
+                    android:isIndicator="true"
+                    android:max="5"
+                    android:minHeight="10dp"
+                    android:numStars="5"
+                    android:progressTint="@color/text"
+                    android:rating="2"
+                    android:scaleX="0.4"
+                    android:scaleY="0.4"
+                    android:stepSize="0.5" />
+
+                <TextView
+                    android:id="@+id/byUser"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="by User"
+                    android:textAlignment="viewStart"
+                    android:textColor="@color/text" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="201dp"
+                android:layout_height="wrap_content"
+                android:background="@drawable/border_right"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/Pros"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Pros"
+                    android:textAlignment="center"
+                    android:textColor="@color/foreground1"
+                    android:textSize="18sp" />
+
+                <TextView
+                    android:id="@+id/prosList"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:maxLines="3"
+                    android:text="TextView"
+                    android:textAlignment="center"
+                    android:textColor="@color/text" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/Cons"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Cons"
+                    android:textAlignment="center"
+                    android:textColor="@color/foreground1"
+                    android:textSize="18sp" />
+
+                <TextView
+                    android:id="@+id/consList"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:maxLines="3"
+                    android:text="TextView"
+                    android:textAlignment="center"
+                    android:textColor="@color/text" />
+            </LinearLayout>
+        </LinearLayout>
+
+    </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
