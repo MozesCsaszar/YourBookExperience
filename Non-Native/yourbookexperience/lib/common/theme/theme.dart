@@ -27,8 +27,6 @@ class ThemeBuilder {
 
 class ThemeAttributes {
   ThemeAttributes();
-  static const double _radius = 12;
-
   get textTheme {
     var background = AppColors.background;
     var text = AppColors.text;

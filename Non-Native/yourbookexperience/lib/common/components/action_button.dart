@@ -15,7 +15,7 @@ class _ActionButtonState extends State<ActionButton> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.all(4),
+      padding: const EdgeInsets.all(4),
       child: Container(
           decoration: BoxDecoration(
             border: Border.all(width: 2, color: AppColors.foreground1),
