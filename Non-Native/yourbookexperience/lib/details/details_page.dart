@@ -219,6 +219,34 @@ class _DetailsPageState extends State<DetailsPage> {
     }
   }
 
+  void _errorDialog(String errorText) {
+    showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: Text(
+              "Database Error",
+              style: Theme.of(context).textTheme.titleLarge,
+            ),
+            content: Text(
+              errorText,
+              style: Theme.of(context).textTheme.titleMedium,
+            ),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                child: Text(
+                  "Ok",
+                  style: Theme.of(context).textTheme.titleMedium,
+                ),
+              )
+            ],
+          );
+        });
+  }
+
   void _deleteOperation() {
     showDialog(
         context: context,
@@ -241,10 +269,14 @@ class _DetailsPageState extends State<DetailsPage> {
                       style: Theme.of(context).textTheme.titleMedium)),
               TextButton(
                   onPressed: () {
-                    Repo.removeReview(widget.review.id);
-                    widget.onListUpdate();
-                    Navigator.of(context).pop();
-                    Navigator.of(context).pop();
+                    try {
+                      Repo.removeReview(widget.review.id);
+                      widget.onListUpdate();
+                      Navigator.of(context).pop();
+                      Navigator.of(context).pop();
+                    } catch (e) {
+                      _errorDialog("Error on deleting element from database.");
+                    }
                   },
                   child: Text("OK",
                       style: Theme.of(context).textTheme.titleMedium))

@@ -16,9 +16,9 @@ class ListPage extends StatefulWidget {
 
 class _ListPageState extends State<ListPage> {
   List<Review> reviews = Repo.reviews;
-
   @override
   void initState() {
+    // TODO: implement initState
     super.initState();
     _initRepo();
   }
@@ -42,7 +42,9 @@ class _ListPageState extends State<ListPage> {
         ),
       ),
       body: BlocConsumer<ReviewBloc, ReviewState>(
-          listener: (context, state) => {_updateList()},
+          listener: (context, state) => {
+                if (state is LoadedState) {_updateList()}
+              },
           builder: (context, state) {
             switch (state.runtimeType) {
               case LoadedState:
@@ -96,7 +98,7 @@ class _ListPageState extends State<ListPage> {
     Navigator.of(context).push(MaterialPageRoute(
         builder: (_) => DetailsPage(
               review: Review(
-                  id: Repo.reviews.last.id + 1,
+                  id: -1,
                   userId: 0,
                   bTitle: "",
                   bAuthor: "",

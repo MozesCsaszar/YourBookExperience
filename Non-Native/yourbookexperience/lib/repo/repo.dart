@@ -1,6 +1,3 @@
-import 'dart:io';
-
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:path/path.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 import 'package:yourbookexperience/domain/review.dart';
@@ -42,29 +39,25 @@ class Repo {
   }
 
   static void addReview(Review review) async {
-    if (review.id == -1) {
-      review.id = reviews.last.id + 1;
-    }
     await database.insert('experiences', review.toMap());
 
     reviews.add(review);
   }
 
-  static void removeReview(int id) {
-    database.delete('experiences', where: 'id=?', whereArgs: [id]).then(
-        (value) => reviews.removeWhere((element) => element.id == id),
-        onError: (error) => print(id));
+  static void removeReview(int id) async {
+    await database.delete('experiences', where: 'id=?', whereArgs: [id]);
+
+    reviews.removeWhere((element) => element.id == id);
   }
 
-  static void updateReview(int oldId, Review newReview) {
-    database.update(
-        'experiences', newReview.toMap(), where: "id = ?", whereArgs: [
-      oldId
-    ]).then((value) => {
-          for (int i = 0; i < reviews.length; i++)
-            {
-              if (reviews[i].id == oldId) {reviews[i] = newReview}
-            }
-        });
+  static void updateReview(int oldId, Review newReview) async {
+    await database.update('experiences', newReview.toMap(),
+        where: "id = ?", whereArgs: [oldId]);
+
+    for (int i = 0; i < reviews.length; i++) {
+      if (reviews[i].id == oldId) {
+        reviews[i] = newReview;
+      }
+    }
   }
 }
