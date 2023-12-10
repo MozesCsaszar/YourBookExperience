@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:yourbookexperience/domain/review_bloc.dart';
 import 'package:yourbookexperience/list/list_page.dart';
 import 'package:yourbookexperience/common/theme/theme.dart';
 
@@ -12,10 +14,14 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeBuilder.getThemeData(),
-      home: const ListPage(),
-    );
+    WidgetsFlutterBinding.ensureInitialized();
+
+    return BlocProvider(
+        create: (context) => ReviewBloc(),
+        child: MaterialApp(
+          title: 'Flutter Demo',
+          theme: ThemeBuilder.getThemeData(),
+          home: const ListPage(),
+        ));
   }
 }
