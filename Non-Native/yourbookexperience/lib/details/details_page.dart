@@ -5,7 +5,6 @@ import 'package:yourbookexperience/common/components/action_button.dart';
 import 'package:yourbookexperience/details/box_input_field.dart';
 import 'package:yourbookexperience/domain/review.dart';
 import 'package:yourbookexperience/domain/review_bloc.dart';
-import 'package:yourbookexperience/repo/repo.dart';
 import 'package:yourbookexperience/common/theme/colors.dart';
 
 class DetailsPage extends StatefulWidget {
@@ -158,10 +157,12 @@ class _DetailsPageState extends State<DetailsPage> {
               ]),
             )),
             widget.formType == FormType.update
-                ? ActionButton(onTap: _deleteOperation, text: "Delete Story")
+                ? ActionButton(
+                    onTap: () => _deleteOperation(context),
+                    text: "Delete Story")
                 : const Column(),
             ActionButton(
-                onTap: _positiveOperation,
+                onTap: () => _positiveOperation(context),
                 text: widget.formType.getPositiveButtonText())
           ])),
       backgroundColor: AppColors.background,
@@ -174,7 +175,7 @@ class _DetailsPageState extends State<DetailsPage> {
         rating != 0;
   }
 
-  void _positiveOperation() {
+  void _positiveOperation(BuildContext context) {
     if (validate()) {
       Review newReview = Review(
           id: -1,
@@ -187,9 +188,11 @@ class _DetailsPageState extends State<DetailsPage> {
           cons: consController.text.split("\n"),
           rating: rating);
       if (widget.formType == FormType.add) {
-        Repo.addReview(newReview);
+        BlocProvider.of<ReviewBloc>(context)
+            .add(AddReviewEvent(review: newReview));
       } else {
-        Repo.updateReview(widget.review.id, newReview);
+        BlocProvider.of<ReviewBloc>(context).add(
+            UpdateReviewEvent(reviewId: widget.review.id, review: newReview));
       }
       widget.onListUpdate();
       Navigator.of(context).pop();
@@ -247,7 +250,7 @@ class _DetailsPageState extends State<DetailsPage> {
         });
   }
 
-  void _deleteOperation() {
+  void _deleteOperation(BuildContext context) {
     showDialog(
         context: context,
         builder: (BuildContext context) {
@@ -270,7 +273,8 @@ class _DetailsPageState extends State<DetailsPage> {
               TextButton(
                   onPressed: () {
                     try {
-                      Repo.removeReview(widget.review.id);
+                      BlocProvider.of<ReviewBloc>(context)
+                          .add(DeleteReviewEvent(reviewId: widget.review.id));
                       widget.onListUpdate();
                       Navigator.of(context).pop();
                       Navigator.of(context).pop();

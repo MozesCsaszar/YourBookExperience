@@ -23,14 +23,14 @@ class Review {
 
   Map<String, dynamic> toMap() {
     return {
-      'userId': userId,
+      'userId': userId.toString(),
       'bTitle': bTitle,
       'bAuthor': bAuthor,
       'description': description,
       'experiences': experiences,
       'pros': pros.join("\n"),
       'cons': cons.join("\n"),
-      'rating': rating,
+      'rating': rating.toString(),
     };
   }
 

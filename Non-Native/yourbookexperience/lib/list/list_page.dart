@@ -15,16 +15,9 @@ class ListPage extends StatefulWidget {
 }
 
 class _ListPageState extends State<ListPage> {
-  List<Review> reviews = Repo.reviews;
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    _initRepo();
-  }
-
   @override
   Widget build(BuildContext context) {
+    final myRepository = context.read<Repo>();
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
@@ -43,19 +36,22 @@ class _ListPageState extends State<ListPage> {
       ),
       body: BlocConsumer<ReviewBloc, ReviewState>(
           listener: (context, state) => {
-                if (state is LoadedState) {_updateList()}
+                if (state is LoadedState)
+                  {_updateList()}
+                else if (state is ModifyingErrorState)
+                  {_displayMessage(state.message)}
               },
           builder: (context, state) {
             switch (state.runtimeType) {
-              case LoadedState:
+              case LoadedState || ModifyingErrorState:
                 return Padding(
                     padding: const EdgeInsets.all(8),
                     child: Column(children: [
                       Expanded(
                           child: ListView.separated(
-                        itemCount: Repo.reviews.length,
+                        itemCount: myRepository.reviews.length,
                         itemBuilder: (context, index) => ListItem(
-                            review: Repo.reviews[index],
+                            review: myRepository.reviews[index],
                             onListUpdate: _updateList),
                         separatorBuilder: (BuildContext context, int index) {
                           return const Padding(padding: EdgeInsets.all(4));
@@ -65,33 +61,38 @@ class _ListPageState extends State<ListPage> {
                     ]));
               case LoadingState:
                 return const Center(
-                    child: Column(children: [
-                  Text("Loading reviews..."),
-                  CircularProgressIndicator(
-                    value: null,
-                  )
-                ]));
+                    child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                      Text("Loading reviews..."),
+                      Padding(
+                        padding: EdgeInsetsDirectional.symmetric(vertical: 8),
+                      ),
+                      SizedBox(
+                        width: 150,
+                        height: 150,
+                        child: CircularProgressIndicator(
+                          value: null,
+                        ),
+                      )
+                    ]));
               case LoadingErrorState || InitialState:
-                return Column(children: [
-                  const Text("An error happened whilst loading the database."),
-                  ActionButton(onTap: () => _initRepo(), text: "Retry")
-                ]);
+                return Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const Text(
+                          "An error happened whilst loading the database."),
+                      ActionButton(
+                          onTap: () => BlocProvider.of<ReviewBloc>(context)
+                              .add(LoadingEvent()),
+                          text: "Retry")
+                    ]);
               default:
                 return Text("Unexpected error at state ${state.toString()}");
             }
           }),
       backgroundColor: AppColors.background,
     );
-  }
-
-  void _initRepo() {
-    BlocProvider.of<ReviewBloc>(context).add(LoadingEvent());
-
-    Repo.init().then((value) {
-      BlocProvider.of<ReviewBloc>(context).add(LoadedEvent());
-    }).catchError((error) {
-      BlocProvider.of<ReviewBloc>(context).add(LoadingErrorEvent());
-    });
   }
 
   void _onAdd() {
@@ -114,5 +115,29 @@ class _ListPageState extends State<ListPage> {
 
   void _updateList() {
     setState(() {});
+  }
+
+  void _displayMessage(String message) {
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            // backgroundColor: AppColors.background,
+            title: Text(
+              'Error',
+              style: Theme.of(context).textTheme.titleLarge,
+            ),
+            content:
+                Text(message, style: Theme.of(context).textTheme.titleMedium),
+            actions: [
+              TextButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                  child: Text("OK",
+                      style: Theme.of(context).textTheme.titleMedium))
+            ],
+          );
+        });
   }
 }

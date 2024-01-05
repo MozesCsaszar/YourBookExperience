@@ -17,4 +17,11 @@ class ModifyingState extends ReviewState {}
 
 class ModifiedState extends ReviewState {}
 
-class ModifyingErrorState extends ReviewState {}
+class ModifyingErrorState extends ReviewState {
+  final String message;
+
+  ModifyingErrorState({required this.message});
+
+  @override
+  List<Object?> get props => [message];
+}
