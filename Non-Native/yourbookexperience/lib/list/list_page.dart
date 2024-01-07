@@ -18,6 +18,7 @@ class _ListPageState extends State<ListPage> {
   @override
   Widget build(BuildContext context) {
     final myRepository = context.read<Repo>();
+    myRepository.setState ??= _updateList;
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
