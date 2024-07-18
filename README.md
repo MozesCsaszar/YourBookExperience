@@ -1,10 +1,4 @@
-[![Open in Visual Studio Code](https://classroom.github.com/assets/open-in-vscode-718a45dd9cf7e7f842a935f5ebbe5719a5e09af4491e668f4dbf3b35d5cca122.svg)](https://classroom.github.com/online_ide?assignment_repo_id=12849248&assignment_repo_type=AssignmentRepo)
-# crudProject
-See the details for CrudProject from here: http://www.cs.ubbcluj.ro/~dan/ma/labPlan.html
+# YourBookExperience
 
-In this repository you should maintain your work for the CrudProject project for both of the projects (Native and Non-Native).
-Eg. You can have a directory structure like this:
-- idea - to maintain a Readme.md file with the project idea. 
-- android - for the native project.
-- flutter - for non-native project.
-- server - the server that will be used by both of the above projects. 
+YourBookExperience is a mobile application developed to allow users to create, edit, browse and rate reviews about their and other user's experience reading a book.
+It has two parts: the backend, which works based on a local database that caches information for the specific device and a server situated on the local network hosting a database, and a frontend, which is implemented in two ways: native, with Kotlin and non-native, with React-Native.
